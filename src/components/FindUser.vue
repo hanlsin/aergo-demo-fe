@@ -3,7 +3,6 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
           <div class="modal-header">
             <slot name="header">
               Find User
@@ -12,18 +11,31 @@
 
           <div class="modal-body">
             <slot name="body">
-              <input placeholder="Enter username" v-model="keyword"
-                class="input-box">
-              <a href="#" v-on:click="findUser" v-show="!isLoading"
-                class="btn btn-primary rounded-pill">Search</a>
+              <input
+                placeholder="Enter username"
+                v-model="keyword"
+                class="input-box"
+              />
+              <a
+                href="#"
+                v-on:click="findUser"
+                v-show="!isLoading"
+                class="btn btn-primary rounded-pill"
+              >
+                Search
+              </a>
             </slot>
             <div v-show="isLoading">
-              <br>
-              <RotateSquare2 style="display: inline-block"/>
-              <br>
+              <br />
+              <RotateSquare2 style="display: inline-block" />
+              <br />
             </div>
             <div v-show="!isLoading">
-              <li style="text-align: left" v-for="(value, key) in foundUser.metadata">
+              <li
+                style="text-align: left"
+                v-for="(value, key) in foundUser.metadata"
+                :key="key"
+              >
                 {{ key }}: {{ value }}
               </li>
             </div>
@@ -31,8 +43,10 @@
 
           <div class="modal-footer" v-show="!isLoading">
             <slot name="footer">
-              <a class="btn btn-outline-primary rounded-pill"
-                @click="closeModal()">
+              <a
+                class="btn btn-outline-primary rounded-pill"
+                @click="closeModal()"
+              >
                 OK
               </a>
             </slot>
@@ -63,7 +77,7 @@ export default {
         metadata: {}
       },
       isLoading: false
-    }
+    };
   },
   created: function() {
     this.keyword = this.user.metadata.username;
@@ -73,14 +87,18 @@ export default {
     findUser: function() {
       this.isLoading = true;
       const self = this;
-      this.$store.dispatch('getProfile2', { username: this.keyword }).then(data => {
-        self.foundUser = data.data;
-      }).catch(function(error){
-        console.log(error);
-        alert(`Fail to get user info: ${error}`);
-      }).finally(() => {
-        self.isLoading = false;
-      });
+      this.$store
+        .dispatch("getProfile2", { username: this.keyword })
+        .then(data => {
+          self.foundUser = data.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert(`Fail to get user info: ${error}`);
+        })
+        .finally(() => {
+          self.isLoading = false;
+        });
     },
     closeModal: function() {
       this.$emit("close", this.foundUser);

@@ -4,21 +4,47 @@
       <!--router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link-->
       <router-link :to="{ name: 'home', params: { address: null } }">
-        <img alt="Aergo logo" src="./assets/logo-aergo.png"
-          style="margin: 10px"/>
+        <img
+          alt="Aergo logo"
+          src="./assets/logo-aergo.png"
+          style="margin: 10px"
+        />
       </router-link>
       <div style="display: block">
-        <div style="margin-left: 20px; margin-right: 20px; display: inline-block">
-          <router-link v-if="this.$store.getters.hasCert"
-            :to="{ name: 'home', params: { address: this.$store.getters.getCert.address } }">contracts</router-link>
+        <div
+          style="margin-left: 20px; margin-right: 20px; display: inline-block"
+        >
+          <router-link
+            v-if="this.$store.getters.hasCert"
+            :to="{
+              name: 'home',
+              params: {
+                address: this.$store.getters.getCert.address
+              }
+            }"
+          >
+            contracts
+          </router-link>
         </div>
-        <div style="margin-left: 20px; margin-right: 20px; display: inline-block">
-          <router-link v-if="this.$store.getters.hasCert"
-            :to="{ name: 'profile', params: {} }">profile</router-link>
+        <div
+          style="margin-left: 20px; margin-right: 20px; display: inline-block"
+        >
+          <router-link
+            v-if="this.$store.getters.hasCert"
+            :to="{ name: 'profile', params: {} }"
+          >
+            profile
+          </router-link>
         </div>
-        <div style="margin-left: 20px; margin-right: 20px; display: inline-block">
-          <router-link v-if="this.$store.getters.hasCert"
-            :to="{ name: 'logout', params: {} }">logout</router-link>
+        <div
+          style="margin-left: 20px; margin-right: 20px; display: inline-block"
+        >
+          <router-link
+            v-if="this.$store.getters.hasCert"
+            :to="{ name: 'logout', params: {} }"
+          >
+            logout
+          </router-link>
         </div>
       </div>
     </div>
