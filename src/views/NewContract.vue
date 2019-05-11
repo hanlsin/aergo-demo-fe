@@ -128,20 +128,21 @@ export default {
 
       const self = this;
       this.$store
-        .dispatch('saveContract',
-          {
-            issuer: this.issuer.address,
-            receiver: this.contractor.address,
-            contents: this.contents
-            //issuerKeyImgHash: this.imageDataHash
-          })
+        .dispatch("saveContract", {
+          issuer: this.issuer.address,
+          receiver: this.contractor.address,
+          contents: this.contents
+          //issuerKeyImgHash: this.imageDataHash
+        })
         .then(data => {
           self.contractId = data.data.contract_id;
           self.issuerSign = data.data.issuer_sign;
-        }).catch(function(error){
+        })
+        .catch(function(error) {
           console.log(error);
           alert(`Fail to issue new contract: ${error}`);
-        }).finally(() => {
+        })
+        .finally(() => {
           self.isLoading = false;
         });
     },
@@ -149,7 +150,8 @@ export default {
       if (userInfo.address != null) {
         this.contractor.metadata = userInfo.metadata;
         this.contractor.address = userInfo.address;
-        this.contractor.disp = userInfo.username + " (" + userInfo.address + ")";
+        this.contractor.disp =
+          userInfo.username + " (" + userInfo.address + ")";
       }
       this.showModal = false;
     },
@@ -161,11 +163,11 @@ export default {
         // create a new FileReader to read this image and convert to base64 format
         var reader = new FileReader();
         // Define a callback function to run, when FileReader finishes its job
-        reader.onload = (e) => {
+        reader.onload = e => {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
-        }
+        };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
