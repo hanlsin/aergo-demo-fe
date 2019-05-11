@@ -31,10 +31,10 @@
         target="_blank"
         rel="noopener noreferrer"
         style="margin: 0"
-        href="https://testnet.aergoscan.io/account/Amhnt25NtHeV6pwhZ9gh6b4QQmkqKegXAJV6Q4vaxyZBVtwgfsJE/?tab=interactive"
+        href="https://mainnet.aergoscan.io/account/AmhNZyo2DaJxUn2489iWxtAzgTLdCxd2tubJxuxumZWkJTEKUm1Y/?tab=interactive"
         class="btn btn-primary rounded-pill"
       >
-        Check Fingerprint
+        Check Fingerprint (MainNet)
       </a>
       <br />
       <div style="display: inline-block">
@@ -50,6 +50,39 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;("INTERACTIVE" tab)
           <br />
           &nbsp;&nbsp;3. click "QUERY"
+        </p>
+      </div>
+    </div>
+    <div v-show="!isLoading" style="margin-bottom: 30px;margin-top: 30px">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        style="margin: 0"
+        href="https://sqltestnet.aergoscan.io/account/AmheejAkGiF5Uq7TrH1gMXVT4ssco8sRkqQJSXJe2BqQhRnhw9es/?tab=interactive"
+        class="btn btn-primary rounded-pill"
+      >
+        Check Fingerprint (SQL TestNet)
+      </a>
+      <br />
+      <div style="display: inline-block">
+        <p
+          style="width: center;text-align: left;background-color: #E9E8E9; font-color: #ff0097;margin: 0"
+        >
+          To check the user fingerprint,
+          <br />
+          &nbsp;&nbsp;1. click the above button
+          <br />
+          &nbsp;&nbsp;2. put the address for "getUserInfo"
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;("INTERACTIVE" tab)
+          <br />
+          &nbsp;&nbsp;3. click "QUERY"
+          <br />
+          &nbsp;&nbsp;4. put the address for "getUserCert2"
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;("INTERACTIVE" tab)
+          <br />
+          &nbsp;&nbsp;5. click "QUERY"
         </p>
       </div>
     </div>
