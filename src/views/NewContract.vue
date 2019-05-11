@@ -1,25 +1,50 @@
 <template>
   <div class="netcontract">
     <h3>New Contract</h3>
+    <div v-show="isLoading">
+      <br />
+      <RotateSquare2 style="display: inline-block" />
+      <br />
+    </div>
+    <div
+      v-show="contractId != null"
+      style="text-align: left;background-color: #E9E8E9"
+    >
+      <li>
+        Contract ID:&nbsp;
+        <span style="color: #ff0097">{{ contractId }}</span>
+      </li>
+      <li>
+        Issuer's sign:&nbsp;
+        <span style="color: #ff0097">{{ issuerSign }}</span>
+      </li>
+    </div>
     <div style="margin: 20px">
       <p>
         This is a new contract between
       </p>
       <div>
-        <input class="input-box" readonly
-          v-model="issuer.disp">
+        <input class="input-box" readonly v-model="issuer.disp" />
       </div>
       <p>
         and
       </p>
       <div @click="findContractor">
-        <input class="input-box" readonly
-          v-model="contractor.disp" placeholder="Click and find a receiver">
+        <input
+          class="input-box"
+          readonly
+          v-model="contractor.disp"
+          placeholder="Click and find a receiver"
+        />
       </div>
       <div style="margin-top: 20px;text-align: left">
-        Contract Detail:<br>
-        <textarea rows="10" v-model="contents" style="width: 100%;margin-top: 10px"
-          :placeholder="contentsDesc">
+        Contract Detail:<br />
+        <textarea
+          rows="10"
+          v-model="contents"
+          style="width: 100%;margin-top: 10px"
+          :placeholder="contentsDesc"
+        >
         </textarea>
       </div>
       <!--p>
@@ -35,20 +60,20 @@
         </p>
       </div-->
     </div>
-    <a href="#" v-on:click="issueContract" v-show="!isLoading"
-      class="btn btn-primary rounded-pill">Issue Contract</a>
-    <div v-show="isLoading">
-      <br>
-      <RotateSquare2 style="display: inline-block"/>
-      <br>
-    </div>
-    <div v-show="contractId != null" style="text-align: left;background-color: #E9E8E9">
-        <li>Contract ID: <span style="color: #ff0097">{{ contractId }}</span></li>
-        <li>Issuer's sign: <span style="color: #ff0097">{{ issuerSign }}</span></li>
-    </div>
+    <a
+      href="#"
+      v-on:click="issueContract"
+      v-show="!isLoading"
+      class="btn btn-primary rounded-pill"
+    >
+      Issue Contract
+    </a>
     <!-- use the modal component, pass in the prop -->
-    <FindUser v-if="showModal" v-bind:user="contractor"
-      @close="updateContractor"/>
+    <FindUser
+      v-if="showModal"
+      v-bind:user="contractor"
+      @close="updateContractor"
+    />
   </div>
 </template>
 
@@ -57,6 +82,8 @@ import store from "../store.js";
 // @ is an alias to /src
 import FindUser from "@/components/FindUser.vue";
 import RotateSquare2 from "../components/RotateSquare2.vue";
+
+var sha256 = require("js-sha256");
 
 export default {
   store,
@@ -67,21 +94,21 @@ export default {
   },
   data: function() {
     return {
-      isLoading: false,
+      isLoading: true,
       issuerSign: null,
       contractId: null,
       showModal: false,
       issuer: {
         metadata: null,
         address: this.$store.getters.getCert.address,
-        disp: null,
+        disp: null
       },
       contractor: {
         metadata: {
           username: ""
         },
         address: null,
-        disp: null,
+        disp: null
       },
       imageData: "",
       imageDataHash: null,
@@ -95,18 +122,25 @@ export default {
     6. Store the final contract in the sidechain
     7. Store the contract's fingerprint in MainNet (Data Anchoring)
 `
-    }
+    };
   },
   mounted: function() {
+    this.isLoading = true;
     const self = this;
-    this.$store.dispatch('getProfile', { useraddr:this.issuer.address }).then(data => {
-      self.issuer.metadata = data.data.metadata;
-      self.issuer.disp = self.issuer.metadata.username + " (" + self.issuer.address + ")"
-    }).catch(function(error){
-      console.log(error);
-      alert(`Fail to get user info: ${error}`);
-    }).finally(() => {
-    });
+    this.$store
+      .dispatch("getProfile", { useraddr: this.issuer.address })
+      .then(data => {
+        self.issuer.metadata = data.data.metadata;
+        self.issuer.disp =
+          self.issuer.metadata.username + " (" + self.issuer.address + ")";
+      })
+      .catch(function(error) {
+        console.log(error);
+        alert(`Fail to get user info: ${error}`);
+      })
+      .finally(() => {
+        self.isLoading = false;
+      });
   },
   methods: {
     findContractor: function() {
@@ -116,6 +150,8 @@ export default {
       this.showModal = true;
     },
     issueContract: function() {
+      this.isLoading = true;
+
       if (this.imageData.length > 0) {
         var hash = sha256.create();
         hash.update(this.imageData);
@@ -137,6 +173,7 @@ export default {
         .then(data => {
           self.contractId = data.data.contract_id;
           self.issuerSign = data.data.issuer_sign;
+          self.$router.push(`/isscontract/${self.contractId}`);
         })
         .catch(function(error) {
           console.log(error);

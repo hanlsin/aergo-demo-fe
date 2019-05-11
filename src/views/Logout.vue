@@ -11,9 +11,11 @@ export default {
   store,
   name: "logout",
   mounted: function() {
-    this.$store.dispatch('logout').then(() => {
-      this.$router.push({ name: "home",
-        params: { redirect: this.$route.query.redirect } });
+    this.$store.dispatch("logout").then(() => {
+      this.$router.push({
+        name: "home",
+        params: { redirect: this.$route.query.redirect }
+      });
     });
   }
 };
