@@ -18,7 +18,7 @@
         type="password"
         class="input-box"
       />
-      <div class="file-upload-form">
+      <!--div class="file-upload-form">
         Upload a key image file:
         <input type="file" @change="previewImage" accept="image/*" />
       </div>
@@ -30,16 +30,7 @@
         <span style="color: red">
           Please store this image safe!!
         </span>
-      </div>
-      <a href="#" v-on:click="submit" class="btn btn-primary rounded-pill">
-        Sign up
-      </a>
-      <router-link
-        :to="{ name: 'login', params: {} }"
-        class="btn btn-outline-primary rounded-pill"
-      >
-        Login
-      </router-link>
+      </div-->
       <div v-if="encKey != null" style="background-color: #E9E8E9">
         Encrypted Key:
         <input type="text" id="enc-key" v-model="encKey" v-show="true" />
@@ -51,6 +42,26 @@
           />
         </a>
       </div>
+      <div v-show="!isLoading">
+        <a href="#"
+          v-if="encKey == null"
+          v-on:click="submit"
+          class="btn btn-primary rounded-pill"
+        >
+          Sign up
+        </a>
+        <router-link
+          :to="{ name: 'login', params: {} }"
+          class="btn btn-outline-primary rounded-pill"
+        >
+          Login
+        </router-link>
+      </div>
+      <div v-show="isLoading">
+        <br />
+        <RotateSquare2 style="display: inline-block" />
+        <br />
+      </div>
     </form>
   </div>
 </template>
@@ -58,12 +69,17 @@
 <script>
 import store from "../store.js";
 import sha256 from "js-sha256";
+import RotateSquare2 from "../components/RotateSquare2.vue";
 
 export default {
   store,
   name: "login",
+  components: {
+    RotateSquare2
+  },
   data: function() {
     return {
+      isLoading: false,
       username: null,
       userEmail: null,
       password: null,
@@ -82,6 +98,7 @@ export default {
   },
   methods: {
     submit: function() {
+      this.isLoading = true;
       if (this.imageData.length > 0) {
         var hash = sha256.create();
         hash.update(this.imageData);
@@ -109,6 +126,9 @@ export default {
         .catch(function(error) {
           console.log(error);
           alert(`Fail to signup: ${error}`);
+        })
+        .finally(() => {
+          self.isLoading = false;
         });
     },
     previewImage: function(event) {
