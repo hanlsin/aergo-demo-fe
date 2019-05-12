@@ -53,7 +53,7 @@
               href="#"
               v-on:click="goContract(contract.contract_id)"
               class="btn btn-primary rounded-pill"
-              style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
+              style="font-size: 10px;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
               {{ contract.contract_id.substr(0, 5) }}
               ...
@@ -67,7 +67,7 @@
             <a
               v-bind:href="'/contracts/' + contract.issuer"
               class="btn btn-outline-primary rounded-pill"
-              style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
+              style="font-size: 10px;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
               {{ contract.issuer.substr(0, 5) }}
               ..
@@ -84,7 +84,7 @@
             <a
               v-bind:href="'/contracts/' + contract.receiver"
               class="btn btn-outline-primary rounded-pill"
-              style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
+              style="font-size: 10px;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
               {{ contract.receiver.substr(0, 5) }}
               ..

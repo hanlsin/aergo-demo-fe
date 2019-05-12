@@ -12,7 +12,7 @@
           style="margin: 10px"
         />
       </a>
-      <div style="display: block">
+      <div style="display: block" v-if="this.$store.getters.hasCert">
         <div style="display: inline-block">
           <!--router-link
             v-if="this.$store.getters.hasCert"
