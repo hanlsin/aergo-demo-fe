@@ -65,8 +65,7 @@
           </td>
           <td v-if="address != contract.issuer">
             <a
-              href="#"
-              v-on:click="goProfile(contract.issuer)"
+              v-bind:href="'/contracts/' + contract.issuer"
               class="btn btn-outline-primary rounded-pill"
               style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
@@ -83,8 +82,7 @@
           </td>
           <td v-if="address != contract.receiver">
             <a
-              href="#"
-              v-on:click="goProfile(contract.receiver)"
+              v-bind:href="'/contracts/' + contract.receiver"
               class="btn btn-outline-primary rounded-pill"
               style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
@@ -167,9 +165,6 @@ export default {
       });
   },
   methods: {
-    goProfile: function(address) {
-      this.$router.push(`/contracts/${address}`);
-    },
     goContract: function(contractId) {
       this.$router.push(`/isscontract/${contractId}`);
     }

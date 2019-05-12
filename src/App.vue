@@ -3,16 +3,18 @@
     <div id="nav">
       <!--router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link-->
-      <router-link :to="{ name: 'home', params: { address: null } }">
+      <!--router-link :to="{ name: 'home', params: { address: null } }">
+      </router-link-->
+      <a href="/">
         <img
           alt="Aergo logo"
           src="./assets/logo-aergo.png"
           style="margin: 10px"
         />
-      </router-link>
+      </a>
       <div style="display: block">
         <div style="display: inline-block">
-          <router-link
+          <!--router-link
             v-if="this.$store.getters.hasCert"
             :to="{
               name: 'home',
@@ -22,16 +24,22 @@
             }"
           >
             contracts
-          </router-link>
+          </router-link-->
+          <a href="/contracts/default">
+            contracts
+          </a>
         </div>
         <div style="display: inline-block;width: 10%" />
         <div style="display: inline-block">
-          <router-link
+          <!--router-link
             v-if="this.$store.getters.hasCert"
             :to="{ name: 'profile', params: {} }"
           >
             profile
-          </router-link>
+          </router-link-->
+          <a href="/profile">
+            profile
+          </a>
         </div>
         <div style="display: inline-block;width: 10%" />
         <div style="display: inline-block">
