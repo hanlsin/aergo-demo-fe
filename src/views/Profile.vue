@@ -31,7 +31,7 @@
         target="_blank"
         rel="noopener noreferrer"
         style="margin: 0"
-        href="https://mainnet.aergoscan.io/account/AmhNZyo2DaJxUn2489iWxtAzgTLdCxd2tubJxuxumZWkJTEKUm1Y/?tab=interactive"
+        href="https://mainnet.aergoscan.io/account/AmgmyriYhaFzzeYerxhxUzhFc5PypKrt5c848cRb947RFwcnmGr6/?tab=interactive"
         class="btn btn-primary rounded-pill"
       >
         Check Fingerprint (MainNet)
@@ -58,7 +58,7 @@
         target="_blank"
         rel="noopener noreferrer"
         style="margin: 0"
-        href="https://sqltestnet.aergoscan.io/account/AmheejAkGiF5Uq7TrH1gMXVT4ssco8sRkqQJSXJe2BqQhRnhw9es/?tab=interactive"
+        href="https://sqltestnet.aergoscan.io/account/AmhghEmLFq8kd7m3ttUppe1pYmaN45VVF3BbbJRxJD48efbm4JvP/?tab=interactive"
         class="btn btn-primary rounded-pill"
       >
         Check Fingerprint (SQL TestNet)

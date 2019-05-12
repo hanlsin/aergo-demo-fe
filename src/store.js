@@ -6,6 +6,7 @@ import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 const backendUrl = "http://localhost:5000";
+//const backendUrl = "http://3.8.177.236:5000";
 
 export default new Vuex.Store({
   state: {
