@@ -6,13 +6,17 @@
         v-show="!isLoading"
         style="margin-left: 50px;margin-right: 50px;display: block"
       >
-        <li
-          style="text-align: left"
-          v-for="(value, key) in metadata"
-          :key="key"
-        >
-          {{ key }}: {{ value }}
-        </li>
+        <div v-for="(value, key) in metadata" :key="key">
+          <li style="text-align: left">
+            {{ key }}
+          </li>
+          <input
+            type="text"
+            v-model="metadata[key]"
+            readonly
+            class="input-box"
+          />
+        </div>
       </div>
       <div v-show="isLoading">
         <br />
@@ -22,9 +26,12 @@
     </div>
     <h5>Certificate</h5>
     <div style="margin-left: 50px;margin-right: 50px;;display: block">
-      <li style="text-align: left" v-for="(value, key) in cert" :key="key">
-        {{ key }}: {{ value }}
-      </li>
+      <div v-for="(value, key) in cert" :key="key">
+        <li style="text-align: left">
+          {{ key }}
+        </li>
+        <input type="text" v-model="cert[key]" readonly class="input-box" />
+      </div>
     </div>
     <div v-show="!isLoading" style="margin-bottom: 30px;margin-top: 30px">
       <a

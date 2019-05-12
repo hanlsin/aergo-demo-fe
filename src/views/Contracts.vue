@@ -5,14 +5,21 @@
         v-show="!isLoading2"
         style="margin-left: 50px;margin-right: 50px;display: block"
       >
-        <li
-          style="text-align: left"
-          v-for="(value, key) in metadata"
-          :key="key"
-        >
-          {{ key }}: {{ value }}
-        </li>
-        <li style="text-align: left">address: {{ address }}</li>
+        <div v-for="(value, key) in metadata" :key="key">
+          <li style="text-align: left">
+            {{ key }}
+          </li>
+          <input
+            type="text"
+            v-model="metadata[key]"
+            readonly
+            class="input-box"
+          />
+        </div>
+        <div>
+          <li style="text-align: left">address:</li>
+          <input type="text" v-model="address" readonly class="input-box" />
+        </div>
       </div>
       <div v-show="isLoading2">
         <br />
@@ -30,7 +37,7 @@
         New Contract
       </router-link>
     </div>
-    <div v-show="!isLoading" style="margin: 20px">
+    <div v-show="!isLoading" style="margin: 20px 0">
       <table style="width: 100%">
         <tr>
           <th>Block</th>
@@ -46,11 +53,10 @@
               href="#"
               v-on:click="goContract(contract.contract_id)"
               class="btn btn-primary rounded-pill"
-              style="text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
+              style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
               {{ contract.contract_id.substr(0, 5) }}
-              ..
-              {{ contract.contract_id.substr(-5) }}
+              ...
             </a>
           </td>
           <!--td>{{ contract.contract_id.substr(0, 5) }}...</td-->
@@ -62,7 +68,7 @@
               href="#"
               v-on:click="goProfile(contract.issuer)"
               class="btn btn-outline-primary rounded-pill"
-              style="text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
+              style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
               {{ contract.issuer.substr(0, 5) }}
               ..
@@ -80,7 +86,7 @@
               href="#"
               v-on:click="goProfile(contract.receiver)"
               class="btn btn-outline-primary rounded-pill"
-              style="text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
+              style="font-size: 3vw;text-transform: none;margin: 0;padding-left: 5px;padding-right: 5px;margin-left: 5px;margin-right: 5px"
             >
               {{ contract.receiver.substr(0, 5) }}
               ..

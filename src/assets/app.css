@@ -66,7 +66,7 @@ table {
 }
 
 table th {
-  font-size: 1.2rem;
+  font-size: 4vw;
 }
 
 table tr {
@@ -80,8 +80,7 @@ table tr:first-of-type {
 }
 
 table tr td {
-  padding: 1rem 0;
-  font-size: 1.1rem;
+  font-size: 3vw;
 }
 
 .modal-mask {

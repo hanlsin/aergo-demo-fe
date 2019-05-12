@@ -33,7 +33,13 @@
       </div-->
       <div v-if="encKey != null" style="background-color: #E9E8E9">
         Encrypted Key:
-        <input type="text" id="enc-key" v-model="encKey" v-show="true" />
+        <input
+          type="text"
+          id="enc-key"
+          v-model="encKey"
+          v-show="true"
+          readonly
+        />
         <a href="#" v-on:click="copyEncKeyToClipboard">
           <img
             src="../assets/copy.png"
@@ -43,7 +49,8 @@
         </a>
       </div>
       <div v-show="!isLoading">
-        <a href="#"
+        <a
+          href="#"
           v-if="encKey == null"
           v-on:click="submit"
           class="btn btn-primary rounded-pill"
@@ -115,13 +122,18 @@ export default {
           password: this.password,
           imageDataHash: this.imageDataHash
         })
-        .then(() => {
-          /*
-          this.$router.push({ name: "home",
-            params: { redirect: this.$route.query.redirect } });
-          */
-          self.encKey = self.$store.getters.getEncKey;
-          console.log(self.encKey);
+        .then(data => {
+          console.log(data.data);
+          if (data.data.error_msg) {
+            self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+            self.encKey = null;
+            alert(data.data.error_msg);
+          } else {
+            self.$store.commit("SET_ENC_KEY", {
+              encKey: data.data.encrypted_key
+            });
+            self.encKey = self.$store.getters.getEncKey;
+          }
         })
         .catch(function(error) {
           console.log(error);
@@ -150,19 +162,44 @@ export default {
     },
     copyEncKeyToClipboard: function() {
       let encKey = document.querySelector("#enc-key");
-      encKey.setAttribute("type", "text");
-      encKey.select();
+
+      var isiOSDevice = navigator.userAgent.match(/ipad|iphone/i);
+      if (isiOSDevice) {
+        var editable = encKey.contentEditable;
+        var readOnly = encKey.readOnly;
+
+        encKey.contentEditable = true;
+        encKey.readOnly = false;
+
+        var range = document.createRange();
+        range.selectNodeContents(encKey);
+
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        encKey.setSelectionRange(0, 999999);
+        encKey.contentEditable = editable;
+        encKey.readOnly = readOnly;
+      } else {
+        encKey.setAttribute("type", "text");
+        encKey.select();
+      }
 
       try {
         var successful = document.execCommand("copy");
-        var msg = successful ? "successful" : "unsuccessful";
-        alert("Encrypted key is copied " + msg);
+        if (successful) {
+          alert("Encrypted key is copied successfully!");
+        } else {
+          alert(
+            "Fail to copy the encrypted key. Please copy the key manually."
+          );
+        }
       } catch (err) {
         alert("Oops, unable to copy");
       }
 
       /* unselect the range */
-      //encKey.setAttribute('type', 'hidden')
       window.getSelection().removeAllRanges();
     }
   }

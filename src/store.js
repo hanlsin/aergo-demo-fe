@@ -5,7 +5,8 @@ import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
-const backendUrl = "http://localhost:5000";
+//const backendUrl = "http://localhost:5000";
+const backendUrl = "http://192.168.0.6:5000";
 //const backendUrl = "http://3.8.177.236:5000";
 
 export default new Vuex.Store({
@@ -65,15 +66,7 @@ export default new Vuex.Store({
         });
     },
     signup: function(context, payload) {
-      return axios.post(`${backendUrl}/signup`, payload).then(data => {
-        console.log(data.data);
-        if (data.data.error_msg) {
-          alert(data.data.error_msg);
-          context.commit("SET_ERROR", { errMsg: data.data.error_msg });
-        } else {
-          context.commit("SET_ENC_KEY", { encKey: data.data.encrypted_key });
-        }
-      });
+      return axios.post(`${backendUrl}/signup`, payload);
     },
     logout: function(context) {
       context.commit("DELETE_CERT");

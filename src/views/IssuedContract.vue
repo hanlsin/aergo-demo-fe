@@ -6,12 +6,15 @@
       <RotateSquare2 style="display: inline-block" />
       <br />
     </div>
-    <div style="text-align: left;background-color: #E9E8E9">
+    <div style="text-align: left;background-color: #E9E8E9; padding: 5px">
       <li>
         Contract ID:&nbsp;
-        <span style="color: #ff0097">
-          {{ contractId }}
-        </span>
+        <input
+          class="input-box"
+          readonly
+          v-model="contractId"
+          style="border: 1px solid #ff0097; color: #ff0097"
+        />
       </li>
       <li>
         Issuer's sign:<br />
@@ -248,4 +251,10 @@ export default {
 
 <style>
 @import "../assets/app.css";
+
+/*
+.input-box {
+  border: 1px solid #ff0097;
+}
+*/
 </style>

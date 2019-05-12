@@ -11,9 +11,7 @@
         />
       </router-link>
       <div style="display: block">
-        <div
-          style="margin-left: 20px; margin-right: 20px; display: inline-block"
-        >
+        <div style="display: inline-block">
           <router-link
             v-if="this.$store.getters.hasCert"
             :to="{
@@ -26,9 +24,8 @@
             contracts
           </router-link>
         </div>
-        <div
-          style="margin-left: 20px; margin-right: 20px; display: inline-block"
-        >
+        <div style="display: inline-block;width: 10%" />
+        <div style="display: inline-block">
           <router-link
             v-if="this.$store.getters.hasCert"
             :to="{ name: 'profile', params: {} }"
@@ -36,9 +33,8 @@
             profile
           </router-link>
         </div>
-        <div
-          style="margin-left: 20px; margin-right: 20px; display: inline-block"
-        >
+        <div style="display: inline-block;width: 10%" />
+        <div style="display: inline-block">
           <router-link
             v-if="this.$store.getters.hasCert"
             :to="{ name: 'logout', params: {} }"
@@ -61,7 +57,7 @@
   color: #2c3e50;
 }
 #nav {
-  padding: 30px;
+  padding: 10px;
 }
 
 #nav a {
