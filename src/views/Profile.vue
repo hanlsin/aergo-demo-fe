@@ -2,44 +2,6 @@
   <div class="profile">
     <div>
       <h3>Profile</h3>
-      <div v-show="!isLoading" style="margin: 0 10px">
-        <li style="text-align: left">username: {{ profile.username }}</li>
-        <li style="text-align: left">e-mail: {{ profile.metadata.email }}</li>
-        <li style="text-align: left">
-          created account Block no:
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            style="margin: 0"
-            v-bind:href="
-              $store.getters.getSqlTestNet + '/block/' + profile.block_no
-            "
-          >
-            {{ profile.block_no }}
-          </a>
-        </li>
-        <li style="text-align: left">
-          The certificate will be expired after {{ cert.expire_after }} seconds.
-        </li>
-        <li style="text-align: left">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            style="margin: 0"
-            v-bind:href="
-              $store.getters.getMainNet + '/transaction/' + certProof.txHash
-            "
-          >
-            certificate hash
-          </a>
-          <input
-            type="text"
-            v-model="certProof.certHash"
-            class="input-box"
-          />
-        </li>
-      </div>
-
       <div v-show="!isLoading" style="margin: 0;display: flex">
         <div
           style="flex: 50%;margin: 0 2px;padding: 0 10px;background-color: #E9E8E9"
@@ -56,11 +18,7 @@
             >
               address
             </a>
-            <input
-              type="text"
-              v-model="profile.address"
-              class="input-box"
-            />
+            <input type="text" v-model="profile.address" class="input-box" />
           </li>
         </div>
         <div
@@ -111,11 +69,7 @@
             >
               account Tx
             </a>
-            <input
-              type="text"
-              v-model="profile.tx_hash"
-              class="input-box"
-            />
+            <input type="text" v-model="profile.tx_hash" class="input-box" />
           </li>
         </div>
         <div
@@ -165,11 +119,7 @@
             >
               certificate ID
             </a>
-            <input
-              type="text"
-              v-model="cert.tx_hash"
-              class="input-box"
-            />
+            <input type="text" v-model="cert.tx_hash" class="input-box" />
           </li>
         </div>
         <div
@@ -186,11 +136,7 @@
             >
               certificate ID
             </a>
-            <input
-              type="text"
-              v-model="certProof.certId"
-              class="input-box"
-            />
+            <input type="text" v-model="certProof.certId" class="input-box" />
           </li>
         </div>
       </div>
@@ -202,25 +148,33 @@
         >
           Certificate ID should be same!!
         </span>
-      </div >
+      </div>
 
       <div v-show="!isLoading" style="margin: 0;display: flex">
         <div
           style="flex: 50%;margin: 0 2px;padding: 0 10px;background-color: #E9E8E9"
         >
+          <div style="background-color: #ffffff;padding:0 10px 10px 10px">
+            <h6 style="margin: 0 0 10px 0">Only store in SideChain</h6>
+            <li style="text-align: left">username: {{ profile.username }}</li>
+            <li style="text-align: left">
+              email: {{ profile.metadata.email }}
+            </li>
+            <li style="text-align: left">
+              expired after {{ cert.expire_after }} seconds
+            </li>
+          </div>
           <a
             target="_blank"
             rel="noopener noreferrer"
-            style="margin: 0"
+            style="margin: 10px 0"
             v-bind:href="$store.getters.getSqlTestNetAcc + '/?tab=interactive'"
             class="btn btn-outline-primary rounded-pill"
-            >
+          >
             aergoscan
           </a>
           <div style="display: inline-block;margin: 0 0 10px 0">
-            <p
-            style="width: center;text-align: left;margin: 0"
-            >
+            <p style="width: center;text-align: left;margin: 0">
               To check the user fingerprint,
               <br />
               &nbsp;&nbsp;1. click the above button
@@ -242,19 +196,37 @@
         <div
           style="flex: 50%;margin: 0 2px;padding: 0 10px;background-color: #E9E8E9"
         >
+          <div style="background-color: #ffffff;padding:0 10px 10px 10px">
+            <h6 style="margin: 0 0 10px 0">Only store in MainNet</h6>
+            <li style="text-align: left">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                style="margin: 0"
+                v-bind:href="
+                  $store.getters.getMainNet + '/transaction/' + certProof.txHash
+                "
+              >
+                certificate hash
+              </a>
+              <input
+                type="text"
+                v-model="certProof.certHash"
+                class="input-box"
+              />
+            </li>
+          </div>
           <a
             target="_blank"
             rel="noopener noreferrer"
-            style="margin: 0"
+            style="margin: 10px 0"
             v-bind:href="$store.getters.getMainNetAcc + '/?tab=interactive'"
             class="btn btn-outline-primary rounded-pill"
           >
             aergoscan
           </a>
           <div style="display: inline-block;margin: 0 0 10px 0">
-            <p
-              style="width: center;text-align: left;margin: 0"
-            >
+            <p style="width: center;text-align: left;margin: 0">
               To check the user fingerprint,
               <br />
               &nbsp;&nbsp;1. click the above button
