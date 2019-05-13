@@ -43,7 +43,7 @@ export default new Vuex.Store({
     getMainNetAcc: function(state) {
       return (
         state.mainnet +
-        "/account/AmhghEmLFq8kd7m3ttUppe1pYmaN45VVF3BbbJRxJD48efbm4JvP"
+        "/account/AmgSN4dWHuADYmo67dj7CUPoAiAyFYZ91nE3673DfSHGiuTzTXge"
       );
     },
     getSqlTestNetAcc: function(state) {
