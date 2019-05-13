@@ -130,13 +130,25 @@ export default {
     this.$store
       .dispatch("getProfile", { useraddr: this.issuer.address })
       .then(data => {
-        self.issuer.metadata = data.data.metadata;
-        self.issuer.disp =
-          self.issuer.metadata.username + " (" + self.issuer.address + ")";
+        console.log(data.data);
+        if (data.data.error_msg) {
+          self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+          alert(`Fail to get user info: ${data.data.error_msg}`);
+          return;
+        } else {
+          self.issuer.metadata = data.data.metadata;
+          if (self.issuer.metadata == null) {
+            alert("Cannot find the user");
+            return;
+          }
+
+          self.issuer.disp =
+            self.issuer.metadata.username + " (" + self.issuer.address + ")";
+        }
       })
       .catch(function(error) {
         console.log(error);
-        alert(`Fail to get user info: ${error}`);
+        alert(`Exception: ${error}`);
       })
       .finally(() => {
         self.isLoading = false;

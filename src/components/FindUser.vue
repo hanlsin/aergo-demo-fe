@@ -90,11 +90,21 @@ export default {
       this.$store
         .dispatch("getProfile2", { username: this.keyword })
         .then(data => {
-          self.foundUser = data.data;
+          console.log(data.data);
+          if (data.data.error_msg) {
+            self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+            self.foundUser = null;
+            alert(`Fail to get user info: ${data.data.error_msg}`);
+          } else {
+            self.foundUser = data.data;
+            if (self.foundUser == null) {
+              alert("Cannot find the user");
+            }
+          }
         })
         .catch(function(error) {
           console.log(error);
-          alert(`Fail to get user info: ${error}`);
+          alert(`Exception: ${error}`);
         })
         .finally(() => {
           self.isLoading = false;

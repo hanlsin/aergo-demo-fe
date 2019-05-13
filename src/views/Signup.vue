@@ -18,36 +18,6 @@
         type="password"
         class="input-box"
       />
-      <!--div class="file-upload-form">
-        Upload a key image file:
-        <input type="file" @change="previewImage" accept="image/*" />
-      </div>
-      <div class="image-preview" v-if="imageData.length > 0">
-        <img class="preview" :src="imageData" />
-        <br />
-        This image will be used to recover your account.
-        <br />
-        <span style="color: red">
-          Please store this image safe!!
-        </span>
-      </div-->
-      <div v-if="encKey != null" style="background-color: #E9E8E9">
-        Encrypted Key:
-        <input
-          type="text"
-          id="enc-key"
-          v-model="encKey"
-          v-show="true"
-          readonly
-        />
-        <a href="#" v-on:click="copyEncKeyToClipboard">
-          <img
-            src="../assets/copy.png"
-            alt="copy to clipboard"
-            style="width: 50px;vertical-align: middle;margin-left: 5px"
-          />
-        </a>
-      </div>
       <div v-show="!isLoading">
         <a
           href="#"
@@ -68,6 +38,115 @@
         <br />
         <RotateSquare2 style="display: inline-block" />
         <br />
+      </div>
+      <!--div class="file-upload-form">
+        Upload a key image file:
+        <input type="file" @change="previewImage" accept="image/*" />
+      </div>
+      <div class="image-preview" v-if="imageData.length > 0">
+        <img class="preview" :src="imageData" />
+        <br />
+        This image will be used to recover your account.
+        <br />
+        <span style="color: red">
+          Please store this image safe!!
+        </span>
+      </div-->
+      <div style="background-color: #E9E8E9">
+        <div
+          v-if="encKey != null"
+          style="display: inline-block; width: 330px; text-align: left; padding: 10px"
+        >
+          <li>
+            Address:
+            <input v-model="address" readonly style="width: 200px" />
+          </li>
+          <li>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              style="margin: 0"
+              v-bind:href="
+                $store.getters.getSqlTestNet + '/transaction/' + sTxHash
+              "
+            >
+              Check TX on Sidechain
+            </a>
+          </li>
+          <li>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              style="margin: 0"
+              v-bind:href="
+                $store.getters.getMainNet + '/transaction/' + mTxHash
+              "
+            >
+              Check TX on MainNet
+            </a>
+          </li>
+          <li>
+            Encrypted Key:
+            <input type="text" id="enc-key" v-model="encKey" readonly />
+            <a href="#" v-on:click="copyEncKeyToClipboard">
+              <img
+                src="../assets/copy.png"
+                alt="copy to clipboard"
+                style="width: 30px;vertical-align: middle;margin-left: 5px"
+              />
+            </a>
+          </li>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            style="margin: 10px 0 0 0"
+            v-bind:href="$store.getters.getSqlTestNetAcc + '/?tab=interactive'"
+            class="btn btn-primary rounded-pill"
+          >
+            Check Account on Sidechain
+          </a>
+          <br />
+          <div style="display: inline-block; width: 100%">
+            <p
+              style="width: center;text-align: left;background-color: #ffffff; font-color: #ff0097;margin: 0"
+            >
+              To check the user account,
+              <br />
+              &nbsp;&nbsp;1. click the above button
+              <br />
+              &nbsp;&nbsp;2. put the address for "getUserInfo"
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;("INTERACTIVE" tab)
+              <br />
+              &nbsp;&nbsp;3. click "QUERY"
+            </p>
+          </div>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            style="margin: 10px 0 0 0"
+            v-bind:href="$store.getters.getMainNetAcc + '/?tab=interactive'"
+            class="btn btn-primary rounded-pill"
+          >
+            Check Account on MainNet
+          </a>
+          <br />
+          <div style="display: inline-block; width: 100%">
+            <p
+              style="width: center;text-align: left;background-color: #ffffff; font-color: #ff0097;margin: 0"
+            >
+              To check the user account proof,
+              <br />
+              &nbsp;&nbsp;1. click the above button
+              <br />
+              &nbsp;&nbsp;2. put the address for "getUserInfo"
+              <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;("INTERACTIVE" tab)
+              <br />
+              &nbsp;&nbsp;3. click "QUERY"
+            </p>
+          </div>
+        </div>
       </div>
     </form>
   </div>
@@ -92,7 +171,10 @@ export default {
       password: null,
       imageData: "",
       imageDataHash: null,
-      encKey: null
+      encKey: null,
+      address: null,
+      sTxHash: null,
+      mTxHash: null
     };
   },
   mounted: function() {
@@ -132,12 +214,15 @@ export default {
             self.$store.commit("SET_ENC_KEY", {
               encKey: data.data.encrypted_key
             });
+            self.address = data.data.address;
+            self.sTxHash = data.data.s_tx_hash;
+            self.mTxHash = data.data.m_tx_hash;
             self.encKey = self.$store.getters.getEncKey;
           }
         })
         .catch(function(error) {
           console.log(error);
-          alert(`Fail to signup: ${error}`);
+          alert(`Exception: ${error}`);
         })
         .finally(() => {
           self.isLoading = false;

@@ -136,6 +136,13 @@ export default {
     this.$store
       .dispatch("getContract", { contractId: this.contractId })
       .then(data => {
+        console.log(data.data);
+        if (data.data.error_msg) {
+          self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+          alert(`Fail to get the contract: ${data.data.error_msg}`);
+          return;
+        }
+
         self.issuer.address = data.data.issuer;
         self.contractor.address = data.data.receiver;
         self.contents = data.data.contents;
@@ -147,7 +154,7 @@ export default {
           self.userAddr != self.issuer.address &&
           self.userAddr != self.contractor.address
         ) {
-          alert("You don't have a right to see this contract");
+          alert("You are not allowed to see this contract");
           return;
         }
 
@@ -158,13 +165,28 @@ export default {
         this.$store
           .dispatch("getProfile", { useraddr: self.issuer.address })
           .then(data => {
-            self.issuer.metadata = data.data.metadata;
-            self.issuer.disp =
-              self.issuer.metadata.username + " (" + self.issuer.address + ")";
+            console.log(data.data);
+            if (data.data.error_msg) {
+              self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+              alert(`Fail to get issuer info: ${data.data.error_msg}`);
+              return;
+            } else {
+              self.issuer.metadata = data.data.metadata;
+              if (self.issuer.metadata == null) {
+                alert("Cannot find the issuer");
+                return;
+              }
+
+              self.issuer.disp =
+                self.issuer.metadata.username +
+                " (" +
+                self.issuer.address +
+                ")";
+            }
           })
           .catch(function(error) {
             console.log(error);
-            alert(`Fail to get user info: ${error}`);
+            alert(`Exception: issuer: ${error}`);
           })
           .finally(() => {
             done1 = true;
@@ -177,6 +199,26 @@ export default {
         this.$store
           .dispatch("getProfile", { useraddr: self.contractor.address })
           .then(data => {
+            console.log(data.data);
+            if (data.data.error_msg) {
+              self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+              alert(`Fail to get receiver info: ${data.data.error_msg}`);
+              return;
+            } else {
+              self.contractor.metadata = data.data.metadata;
+              if (self.contractor.metadata == null) {
+                alert("Cannot find the receiver");
+                return;
+              }
+
+              self.issuer.disp =
+                self.issuer.metadata.username +
+                " (" +
+                self.issuer.address +
+                ")";
+            }
+          })
+          .then(data => {
             self.contractor.metadata = data.data.metadata;
             self.contractor.disp =
               self.contractor.metadata.username +
@@ -186,7 +228,7 @@ export default {
           })
           .catch(function(error) {
             console.log(error);
-            alert(`Fail to get user info: ${error}`);
+            alert(`Exception: receiver: ${error}`);
           })
           .finally(() => {
             done2 = true;
@@ -197,10 +239,33 @@ export default {
       })
       .catch(function(error) {
         console.log(error);
-        alert(`Fail to get contract info: ${error}`);
+        alert(`Exception: ${error}`);
       });
   },
   methods: {
+    updateContract: function() {
+      this.isLoading = true;
+      const self = this;
+      this.$store
+        .dispatch("updateContract", { contractId: this.contractId })
+        .then(data => {
+          console.log(data.data);
+          if (data.data.error_msg) {
+            self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+            alert(`Fail to agree the contract: ${data.data.error_msg}`);
+            return;
+          } else {
+            window.location.reload(true);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+          alert(`Exception: ${error}`);
+        })
+        .finally(() => {
+          self.isLoading = false;
+        });
+    },
     agreeContract: function() {
       this.isLoading = true;
       const self = this;
@@ -209,15 +274,16 @@ export default {
         .then(data => {
           console.log(data.data);
           if (data.data.error_msg) {
-            alert(data.data.error_msg);
             self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+            alert(`Fail to agree the contract: ${data.data.error_msg}`);
+            return;
           } else {
             window.location.reload(true);
           }
         })
         .catch(function(error) {
           console.log(error);
-          alert(`Fail to agree the contract: ${error}`);
+          alert(`Exception: ${error}`);
         })
         .finally(() => {
           self.isLoading = false;
@@ -231,15 +297,16 @@ export default {
         .then(data => {
           console.log(data.data);
           if (data.data.error_msg) {
-            alert(data.data.error_msg);
             self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+            alert(`Fail to disagree the contract: ${data.data.error_msg}`);
+            return;
           } else {
             window.location.reload(true);
           }
         })
         .catch(function(error) {
           console.log(error);
-          alert(`Fail to disagree the contract: ${error}`);
+          alert(`Exception: ${error}`);
         })
         .finally(() => {
           self.isLoading = false;

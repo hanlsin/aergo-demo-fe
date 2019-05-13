@@ -1,4 +1,13 @@
 
+a {
+  font-weight: bold;
+  color: #ff0097;
+}
+
+a.router-link-exact-active {
+  color: #ff0097;
+}
+
 .btn {
   display: inline-block;
   text-align: center;

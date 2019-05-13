@@ -6,11 +6,14 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 //const backendUrl = "http://localhost:5000";
-const backendUrl = "http://192.168.0.6:5000";
+const backendUrl = "http://10.246.7.229:5000";
+//const backendUrl = "http://192.168.0.6:5000";
 //const backendUrl = "http://3.8.177.236:5000";
 
 export default new Vuex.Store({
   state: {
+    sqltestnet: "https://sqltestnet.aergoscan.io",
+    mainnet: "https://mainnet.aergoscan.io",
     encKey: "",
     cert: null,
     errMsg: null
@@ -30,6 +33,24 @@ export default new Vuex.Store({
     },
     hasCert: function(state) {
       return state.cert !== null;
+    },
+    getMainNet: function(state) {
+      return state.mainnet;
+    },
+    getSqlTestNet: function(state) {
+      return state.sqltestnet;
+    },
+    getMainNetAcc: function(state) {
+      return (
+        state.mainnet +
+        "/account/AmhghEmLFq8kd7m3ttUppe1pYmaN45VVF3BbbJRxJD48efbm4JvP"
+      );
+    },
+    getSqlTestNetAcc: function(state) {
+      return (
+        state.sqltestnet +
+        "/account/AmgmyriYhaFzzeYerxhxUzhFc5PypKrt5c848cRb947RFwcnmGr6"
+      );
     }
   },
   mutations: {
@@ -50,20 +71,10 @@ export default new Vuex.Store({
   },
   actions: {
     login: function(context, { encKey, password }) {
-      return axios
-        .post(`${backendUrl}/login`, {
-          enc_key: encKey,
-          password: password
-        })
-        .then(data => {
-          console.log(data.data);
-          if (data.data.error_msg) {
-            alert(data.data.error_msg);
-            context.commit("SET_ERROR", { errMsg: data.data.error_msg });
-          } else {
-            context.commit("SET_CERT", { cert: data.data });
-          }
-        });
+      return axios.post(`${backendUrl}/login`, {
+        enc_key: encKey,
+        password: password
+      });
     },
     signup: function(context, payload) {
       return axios.post(`${backendUrl}/signup`, payload);
@@ -80,6 +91,12 @@ export default new Vuex.Store({
     getProfile: function(context, { useraddr }) {
       const address = context.state.cert.address;
       return axios.post(`${backendUrl}/profile/${useraddr}`, {
+        address: address
+      });
+    },
+    getAccProof: function(context) {
+      const address = context.state.cert.address;
+      return axios.post(`${backendUrl}/accproof`, {
         address: address
       });
     },

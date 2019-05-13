@@ -72,15 +72,23 @@ export default {
 
       this.$store
         .dispatch("login", { encKey: this.encKey, password: this.password })
-        .then(() => {
-          this.$router.push({
-            name: "profile",
-            params: { redirect: this.$route.query.redirect }
-          });
+        .then(data => {
+          console.log(data.data);
+          if (data.data.error_msg) {
+            self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+            alert(`Fail to login: ${data.data.error_msg}`);
+            return;
+          } else {
+            self.$store.commit("SET_CERT", { cert: data.data });
+            this.$router.push({
+              name: "profile",
+              params: { redirect: this.$route.query.redirect }
+            });
+          }
         })
         .catch(function(error) {
           console.log(error);
-          alert(`Fail to login: ${error}`);
+          alert(`Exception: ${error}`);
         })
         .finally(() => {
           self.isLoading = false;

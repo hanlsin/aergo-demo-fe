@@ -141,11 +141,21 @@ export default {
     this.$store
       .dispatch("getProfile", { useraddr: this.address })
       .then(data => {
-        self.metadata = data.data.metadata;
+        console.log(data.data);
+        if (data.data.error_msg) {
+          self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+          //alert(`Fail to get user info: ${data.data.error_msg}`);
+        } else {
+          self.metadata = data.data.metadata;
+          if (self.metadata == null) {
+            alert("Cannot find the user");
+            return;
+          }
+        }
       })
       .catch(function(error) {
         console.log(error);
-        alert(`Fail to get user profile: ${error}`);
+        alert(`Exception: ${error}`);
       })
       .finally(() => {
         self.isLoading2 = false;
@@ -154,11 +164,18 @@ export default {
     this.$store
       .dispatch("reqContractList", { address: this.address })
       .then(data => {
-        self.contracts = data.data;
+        console.log(data.data);
+        if (data.data.error_msg) {
+          self.$store.commit("SET_ERROR", { errMsg: data.data.error_msg });
+          alert(`Fail to get contract list: ${data.data.error_msg}`);
+          return;
+        } else {
+          self.contracts = data.data;
+        }
       })
       .catch(function(error) {
         console.log(error);
-        alert(`Fail to get contracts: ${error}`);
+        alert(`Exception: ${error}`);
       })
       .finally(() => {
         self.isLoading = false;
